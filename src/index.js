@@ -1,14 +1,8 @@
-import { Tweet } from './components/Tweet/index.js.js'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Home } from './pages/Home'
 
-const listOfTweets = [
-    "First tweet",
-    "second tweet",
-    "Third tweet"
-]
-
-const $listOfTweets = listOfTweets.map(conteudo => <Tweet />)
-
-ReactDOM.render(
-    $listOfTweets,
-    document.querySelector('.tweetsArea')
+ReactDOM.hydrate(
+    <Home />,
+    document.querySelector('body')
 )
