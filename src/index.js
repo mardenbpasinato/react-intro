@@ -1,4 +1,4 @@
-import { Tweet } from '../js/components/Tweet/index.js'
+import { Tweet } from './components/Tweet/index.js.js'
 
 const listOfTweets = [
     "First tweet",
@@ -6,7 +6,7 @@ const listOfTweets = [
     "Third tweet"
 ]
 
-const $listOfTweets = listOfTweets.map(conteudo => Tweet(conteudo))
+const $listOfTweets = listOfTweets.map(conteudo => <Tweet />)
 
 ReactDOM.render(
     $listOfTweets,
