@@ -1,94 +1,66 @@
-import React from 'react'
-import { Tweet } from '../components/Tweet/index'
-import '../css/reset.css'
-import '../css/container.css'
+import React, { useState } from 'react'
 import '../css/btn.css'
 import '../css/icon.css'
 import '../css/iconHeart.css'
 import '../css/notificacao.css'
-import '../css/cabecalho.css'
-import '../css/navMenu.css'
-import '../css/dashboard.css'
-import '../css/widget.css'
 import '../css/novoTweet.css'
-import '../css/trendsArea.css'
-
-const listOfTweets = [
-    "First tweet",
-    "Second tweet",
-    "Third tweet"
-]
+import '../css/reset.css'
+import { Cabecalho, NavMenu, Dashboard, Widget, TrendsArea, Tweet } from '../components'
 
 export function Home() {
+    const [ textoTweet, setTextoTweet ] = useState("")
+    const [ arrayTweets, setArrayTweets ] = useState([])
+    
+    function onTextArea(evento){
+        const $textArea = evento.target
+        setTextoTweet($textArea.value)
+    }
+
+    function onFormSubmit(evento) {
+        evento.preventDefault()
+        setArrayTweets([textoTweet, ...arrayTweets])
+    }
+
+    /* function onTweetTransition(){
+        setArrayTweets([textoTweet, ...arrayTweets])
+    } */
+
+    const isInvalid = (textoTweet.length > 140)
+    const classStatusCount = "novoTweet__status " + (isInvalid ? "novoTweet__status--invalido" : "")
+    const classStatusEditor = "novoTweet__editor " + (isInvalid ? "novoTweet__editor--invalido" : "")
+    
     return (
-        <div>
-            <header className="cabecalho">
-                <div className="cabecalho__container container">
-                    <h1 className="cabecalho__logo">
-                        <a href="/">Twitelum</a>
-                    </h1>
-                    <nav className="navMenu">
-                        <ul className="navMenu__lista">
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/">
-                                    Bem vindo(a): <br />
-                                    <strong> @artdiniz</strong>
-                                </a>
-                            </li>
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/">
-                                    Página Inicial
-                                </a>
-                            </li>
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/hashtags">
-                                    Hashtags
-                                </a>
-                            </li>
-                            <li className="navMenu__item">
-                                <a className="navMenu__link" href="/logout">
-                                    Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-        </header>
-        <div className="container">
-            <div className="dashboard">
-                <div className="widget">
-                    <form className="novoTweet">
-                        <div className="novoTweet__editorArea">
-                            <span className="novoTweet__status">0/140</span>
-                            <textarea className="novoTweet__editor" placeholder="O que está acontecendo?"></textarea>
+        <React.Fragment>
+            <Cabecalho>
+                <NavMenu usuario="@marden" />
+            </Cabecalho>
+            <div className="container">
+                <Dashboard>
+                    <Widget>
+                        <form className="novoTweet" onSubmit={ onFormSubmit }>
+                            <div className="novoTweet__editorArea"> 
+                                <span className={ classStatusCount }>{ textoTweet.length }/140</span>
+                                <textarea className={ classStatusEditor} placeholder="O que está acontecendo?" onChange={ onTextArea }></textarea>
+                            </div>
+                            <button disabled={ isInvalid } type="submit" className="novoTweet__envia">Tweetar</button>
+                        </form>
+                    </Widget>
+                    <Widget>
+                        <TrendsArea />
+                    </Widget>
+                </Dashboard>
+                <Dashboard posicao="centro">
+                    <Widget>
+                        <div className="tweetsArea">
+                            { 
+                                arrayTweets.map(conteudo => (
+                                    <Tweet likesCount={ Math.floor(Math.random() * 10) }>{ conteudo }</Tweet>
+                                ))
+                            }
                         </div>
-                        <button type="submit" className="novoTweet__envia">Tweetar</button>
-                    </form>
-                </div>
-                <div className="widget">
-                    <div className="trendsArea">
-                        <h2 className="trendsArea__titulo widget__titulo">Trends Brasil</h2>
-                        <ol className="trendsArea__lista">
-                            <li><a href="/">#bagulhos</a></li>
-                            <li><a href="/">#bagulheiros</a></li>
-                        </ol>
-                    </div>
-                </div>
+                    </Widget>
+                </Dashboard>
             </div>
-            <div className="dashboard dashboard__centro">
-                <div className="widget">
-                    <div className="tweetsArea">
-                        { 
-                            listOfTweets.map(conteudo => (
-                                <Tweet likesCount={ Math.floor(Math.random() * 10) }> 
-                                    { conteudo } 
-                                </Tweet>
-                            ))
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        </React.Fragment>
     )
 }

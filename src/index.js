@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Home } from './pages/Home'
 
-ReactDOM.hydrate(
+ReactDOM.render(
     <Home />,
-    document.querySelector('body')
+    document.querySelector('#reactRoot')
 )

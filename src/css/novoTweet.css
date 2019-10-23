@@ -11,7 +11,6 @@
 }
 .novoTweet__editor {
   width: 100%;
-  transition: height .2s;
   border: 1px solid #ABE6F8;
   border-radius: 4px;
   resize: none;
@@ -20,10 +19,14 @@
   font-size: 11px;
 }
 .novoTweet__editor:not(:empty),
-.novoTweet__editor:focus {
+/* .novoTweet__editor:focus {
   height: 80px;
   box-shadow: 0 0 0 1px #ABE6F8;
   outline: 0;
+} */
+
+.novoTweet__editor--invalido {
+  border: 1px solid red;
 }
 
 .novoTweet__status {
