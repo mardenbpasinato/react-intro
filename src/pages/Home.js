@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
+import { Cabecalho, NavMenu, Dashboard, Widget, TrendsArea, Tweet } from '../components'
+import * as LoginService from '../model/services/LoginService'
 import '../css/btn.css'
 import '../css/icon.css'
 import '../css/iconHeart.css'
 import '../css/notificacao.css'
 import '../css/novoTweet.css'
 import '../css/reset.css'
-import { Cabecalho, NavMenu, Dashboard, Widget, TrendsArea, Tweet } from '../components'
 
 export function Home() {
     const [ textoTweet, setTextoTweet ] = useState("")
     const [ arrayTweets, setArrayTweets ] = useState([])
+    const isAutenticado = LoginService.isAutenticado()
     
     function onTextArea(evento){
         const $textArea = evento.target
@@ -21,15 +24,11 @@ export function Home() {
         setArrayTweets([textoTweet, ...arrayTweets])
     }
 
-    /* function onTweetTransition(){
-        setArrayTweets([textoTweet, ...arrayTweets])
-    } */
-
     const isInvalid = (textoTweet.length > 140)
     const classStatusCount = "novoTweet__status " + (isInvalid ? "novoTweet__status--invalido" : "")
     const classStatusEditor = "novoTweet__editor " + (isInvalid ? "novoTweet__editor--invalido" : "")
     
-    return (
+    const $pagina = (
         <React.Fragment>
             <Cabecalho>
                 <NavMenu usuario="@marden" />
@@ -61,6 +60,16 @@ export function Home() {
                     </Widget>
                 </Dashboard>
             </div>
+        </React.Fragment>
+    )
+
+    return (
+        <React.Fragment>
+            {
+                isAutenticado
+                    ? $pagina
+                    : <Redirect to="/login" />
+            }
         </React.Fragment>
     )
 }

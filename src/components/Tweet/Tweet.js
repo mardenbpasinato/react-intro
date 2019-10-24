@@ -1,16 +1,18 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import './tweet.css'
 
-// Componente é uma função
+Tweet.propTypes = {
+    likesCount: PropTypes.number
+}
+
 export function Tweet(props) {
-    // RETORNA um Elemento
     return (
         <article className="tweet">
             <div className="tweet__cabecalho">
                 <img className="tweet__fotoUsuario" src="https://placehold.it/50x50" alt="" />
                 <span className="tweet__nomeUsuario">Fulano de Tal</span>
-                <a href="/"><span className="tweet__userName">@usuario</span></a>
+                <a href="/"><span className="tweet__userName">@marden</span></a>
             </div>
             <p className="tweet__conteudo">{ props.children }</p>
             <footer className="tweet__footer">
